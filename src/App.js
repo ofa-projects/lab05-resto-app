@@ -10,27 +10,45 @@ class App extends Component {
 
     constructor(props){
         super(props);
-        this.state = {idMenuSeleccionado:0,platos:[]};
+        this.state = {
+                idMenuSeleccionado:0,
+                platos:[],
+                platoEditar:{nombre:'',precio:0.0}
+            };
         this.elegirMenu = this.elegirMenu.bind(this);
         this.addPlato = this.addPlato.bind(this);
         this.seleccionarPlato = this.seleccionarPlato.bind(this);
-
+        this.actualizarPlato = this.actualizarPlato.bind(this);
+        this.nuevoPlato = this.nuevoPlato.bind(this);
+        this.borrarPlato = this.borrarPlato.bind(this);        
     }
 
-    addPlato(nombre,precio){
-        console.log(this.state);
-        const platosAux= [...this.state.platos,
-            {nombre: nombre, precio:precio}];
-        this.setState({platos:platosAux});
+    addPlato(){
+        const platosAux= [...this.state.platos,this.state.platoEditar];                    
+        this.setState({platos:platosAux,platoEditar:{nombre:'',precio:0.0}});
     }
 
     seleccionarPlato(indice){
-        console.log(indice);
         let platoEditable =    this.state.platos[indice];
-        console.log(platoEditable);
         this.setState({platoEditar:platoEditable});
     }
 
+    nuevoPlato(){
+        this.setState({platoEditar:{nombre:'',precio:0.0}});
+    }
+
+    actualizarPlato(att,valor){
+        let aux = this.state.platoEditar;
+        aux[att]= valor;
+        this.setState({platoEditar:aux});
+    }
+
+    borrarPlato(indice){
+        var nuevoArreglo = this.state.platos.slice(); //copiar el arreglo para hacerlo inmutable
+        nuevoArreglo.splice(indice, 1); //borrar el elemento
+        this.setState({platos: nuevoArreglo}); //actualizar el estado
+    }
+    
     elegirMenu (menuItem){
         this.setState({idMenuSeleccionado:menuItem})
     }
@@ -39,8 +57,17 @@ class App extends Component {
         let contenido = <p>Bienvenido</p>;
         switch(this.state.idMenuSeleccionado){
             case 1:
-                contenido= <div><PlatosForm onAddPlato={this.addPlato} platoEditar={this.state.platoEditar}></PlatosForm>
-                                <PlatoLista platos={this.state.platos} onselect={this.seleccionarPlato}></PlatoLista>
+                contenido= <div><PlatosForm 
+                                    onAddPlato={this.addPlato} 
+                                    nuevo={this.nuevoPlato}                                    
+                                    platoEditar={this.state.platoEditar} 
+                                    actualizarPlato={this.actualizarPlato}
+                                    >
+                                </PlatosForm>
+                                    <PlatoLista platos={this.state.platos} 
+                                                onselect={this.seleccionarPlato}
+                                                borrar={this.borrarPlato}>
+                                    </PlatoLista>
                                 </div>
                 break;
             case 2:

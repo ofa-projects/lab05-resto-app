@@ -10,7 +10,11 @@ class PlatoLista extends React.Component {
 
      render() {
            const filas = this.props.platos.map((unPlato,indice) =>
-                <PlatoFila plato={unPlato} key={indice}  id={indice} onselect={this.props.onselect}></PlatoFila>
+                <PlatoFila  plato={unPlato} 
+                            key={indice}  
+                            id={indice} 
+                            ondelete={this.props.borrar}
+                            onselect={this.props.onselect}></PlatoFila>
             );
     return (
       
