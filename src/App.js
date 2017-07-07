@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import Encabezado from './view/commons/Encabezado'
 import PlatosForm from './view/platos/PlatosForm'
+import PlatoLista from './view/platos/PlatoLista'
 import { NavItem,Grid,Row,Col} from 'react-bootstrap';
 
 class App extends Component {
@@ -16,10 +17,10 @@ class App extends Component {
     }
 
     addPlato(nombre,precio){
-        console.log(nombre+ " _ _ _ _ "+precio);
+        console.log(this.state);
         const platosAux= [...this.state.platos,
             {nombre: nombre, precio:precio}];
-        this.setState({platosAux});
+        this.setState({platos:platosAux});
     }
 
     elegirMenu (menuItem){
@@ -30,7 +31,7 @@ class App extends Component {
         let contenido = <p>Bienvenido</p>;
         switch(this.state.idMenuSeleccionado){
             case 1:
-                contenido= <PlatosForm onAddPlato={this.addPlato} ></PlatosForm>
+                contenido= <div><PlatosForm onAddPlato={this.addPlato} ></PlatosForm><PlatoLista platos={this.state.platos}></PlatoLista></div>
                 break;
             case 2:
                 contenido = <p>pedidos!!!</p>
