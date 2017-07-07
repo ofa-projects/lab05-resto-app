@@ -13,6 +13,7 @@ class App extends Component {
         this.state = {idMenuSeleccionado:0,platos:[]};
         this.elegirMenu = this.elegirMenu.bind(this);
         this.addPlato = this.addPlato.bind(this);
+        this.seleccionarPlato = this.seleccionarPlato.bind(this);
 
     }
 
@@ -23,6 +24,13 @@ class App extends Component {
         this.setState({platos:platosAux});
     }
 
+    seleccionarPlato(indice){
+        console.log(indice);
+        let platoEditable =    this.state.platos[indice];
+        console.log(platoEditable);
+        this.setState({platoEditar:platoEditable});
+    }
+
     elegirMenu (menuItem){
         this.setState({idMenuSeleccionado:menuItem})
     }
@@ -31,7 +39,9 @@ class App extends Component {
         let contenido = <p>Bienvenido</p>;
         switch(this.state.idMenuSeleccionado){
             case 1:
-                contenido= <div><PlatosForm onAddPlato={this.addPlato} ></PlatosForm><PlatoLista platos={this.state.platos}></PlatoLista></div>
+                contenido= <div><PlatosForm onAddPlato={this.addPlato} platoEditar={this.state.platoEditar}></PlatosForm>
+                                <PlatoLista platos={this.state.platos} onselect={this.seleccionarPlato}></PlatoLista>
+                                </div>
                 break;
             case 2:
                 contenido = <p>pedidos!!!</p>
